@@ -1,20 +1,27 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var express = require("express");
+var cors = require("cors");
+var path = require("path");
+var cookieParser = require("cookie-parser");
+var logger = require("morgan");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter = require("./routes/index");
+var sectionsRouter = require("./routes/sections");
 
 var app = express();
 
-app.use(logger('dev'));
+app.use(cors()); // all origins
+/* app.use( // specific origins
+   cors({
+     origin: ["http://localhost:4200"],
+   })
+ ); */
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use("/", indexRouter);
+app.use("/sections", sectionsRouter);
 
 module.exports = app;
