@@ -9,6 +9,11 @@
     [list]="sections"
     (onListItemClickedEvent)="onListItemClickedEventHandler($event)"
   ></app-section-list>
+  <app-loading-indicator
+    *ngIf="isSettingUpSSEConnection"
+    [loaderTxt]="'Registering for news events...'"
+    class="mt-[5%]"
+  ></app-loading-indicator>
 </ng-container>
 <ng-template #noSectionsTmp>
   <p

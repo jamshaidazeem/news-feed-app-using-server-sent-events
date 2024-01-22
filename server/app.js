@@ -6,6 +6,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var sectionsRouter = require("./routes/sections");
+var serverSiteEventsRouter = require("./routes/sse");
 
 var app = express();
 
@@ -23,5 +24,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/sections", sectionsRouter);
+app.use("/sse", serverSiteEventsRouter);
 
 module.exports = app;
