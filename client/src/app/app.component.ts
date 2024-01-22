@@ -5,6 +5,7 @@ import { NytService } from './services/nyt.service';
 import { Subscription } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { TypeSection } from './models/section.type';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private nytService: NytService) {}
 
   ngOnInit(): void {
+    initFlowbite();
     this.fetchSectionsFromServer();
   }
 
