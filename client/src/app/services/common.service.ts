@@ -10,6 +10,7 @@ export const SSE_CONNECTED = 'sse connection is opened';
 export const SSE_ERROR = 'sse error';
 export const SSE_EVENT_TYPE_MSG = 'message';
 export const SSE_EVENT_TYPE_NEWS = 'news';
+export const SSE_EVENT_TYPE_ALL_SENT = 'allSent';
 
 @Injectable({
   providedIn: 'root',
