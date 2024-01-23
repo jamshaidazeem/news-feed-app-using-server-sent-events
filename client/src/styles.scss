@@ -29,6 +29,7 @@ body {
   width: 100%;
   background: white;
   margin: auto;
+  @apply bg-gray-50;
 
   div {
     @extend .hide-scrollbar;

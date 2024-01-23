@@ -2,6 +2,8 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { TypeMultimedia, TypeNews } from '../models/news.type';
 
+// https://flowbite.com/docs/components/card/#horizontal-card
+// https://flowbite.com/docs/components/badge/#pills-badge
 @Component({
   selector: 'app-item-news',
   standalone: true,
@@ -32,14 +34,8 @@ import { TypeMultimedia, TypeNews } from '../models/news.type';
           class="w-full h-0.5 mx-auto mb-3 mt-2 bg-gray-100 border-0 rounded dark:bg-gray-900"
         />
         <div>
-          <span
-            class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300"
-            >{{ publishedDate }}</span
-          >
-          <span
-            class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300"
-            >{{ section }}</span
-          >
+          <span class="tags">{{ publishedDate }}</span>
+          <span class="tags">{{ section }}</span>
         </div>
       </div>
     </a>
@@ -48,6 +44,10 @@ import { TypeMultimedia, TypeNews } from '../models/news.type';
     `
       :host {
         @apply flex w-full justify-center items-center;
+
+        .tags {
+          @apply bg-gray-100 text-gray-800 text-xs font-medium me-2 px-4 py-2 rounded-full dark:bg-gray-700 dark:text-gray-300;
+        }
       }
     `,
   ],
@@ -91,7 +91,7 @@ export class ItemNewsComponent implements OnInit {
       ? new Date(this.news.published_date)
       : undefined;
     const formattedDate = date ? date.toDateString() : 'N/A';
-    return `Publish on: ${formattedDate}`;
+    return `Published on: ${formattedDate}`;
   }
 
   get section() {

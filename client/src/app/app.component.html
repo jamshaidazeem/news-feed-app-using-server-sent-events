@@ -19,26 +19,15 @@
     class="hide-scrollbar"
     [news]="news"
   >
-    <app-loading-indicator
-      registeringSource
-      *ngIf="isSettingUpSSEConnection"
-      [loaderTxt]="'Registering for news events...'"
-      class="mt-[20%]"
-    ></app-loading-indicator>
-    <p
-      noNews
-      *ngIf="!isSettingUpSSEConnection && news.length === 0"
-      class="w-full mt-[20%] text-sm text-center font-normal text-gray-900 dark:text-white"
-    >
-      No News!
-    </p>
+    <ng-container [ngTemplateOutlet]="newsLoading"></ng-container>
   </app-section-news>
 
-  <hr
-    class="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-2 dark:bg-gray-700"
-  />
-
-  <div class="w-full h-12">&nbsp;</div>
+  <app-news-headline
+    class="hide-scrollbar sm:invisible md:visible"
+    [news]="news"
+    *ngIf="!isSettingUpSSEConnection && news.length"
+  >
+  </app-news-headline>
 </ng-container>
 <ng-template #noSectionsTmp>
   <p
@@ -46,5 +35,21 @@
     class="w-full mt-[25%] text-sm text-center font-normal text-gray-900 dark:text-white"
   >
     No sections found, Please refresh in few minutes, Thanks.
+  </p>
+</ng-template>
+
+<ng-template #newsLoading>
+  <app-loading-indicator
+    registeringSource
+    *ngIf="isSettingUpSSEConnection"
+    [loaderTxt]="'Registering for news events...'"
+    class="mt-[20%]"
+  ></app-loading-indicator>
+  <p
+    noNews
+    *ngIf="!isSettingUpSSEConnection && news.length === 0"
+    class="w-full mt-[20%] text-sm text-center font-normal text-gray-900 dark:text-white"
+  >
+    No News!
   </p>
 </ng-template>

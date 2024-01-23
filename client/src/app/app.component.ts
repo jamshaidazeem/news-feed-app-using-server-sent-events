@@ -17,6 +17,8 @@ import { initFlowbite } from 'flowbite';
 import { SectionListComponent } from './section-list/section-list.component';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
 import { SectionNewsComponent } from './section-news/section-news.component';
+import { NewsHeadlineComponent } from './news-headline/news-headline.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -26,6 +28,7 @@ import { SectionNewsComponent } from './section-news/section-news.component';
     SectionListComponent,
     LoadingIndicatorComponent,
     SectionNewsComponent,
+    NewsHeadlineComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
