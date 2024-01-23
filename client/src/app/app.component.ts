@@ -5,12 +5,14 @@ import {
   CommonService,
   SSE_CONNECTED,
   SSE_ERROR,
+  SSE_EVENT_TYPE_ALL_SENT,
   SSE_EVENT_TYPE_MSG,
   SSE_EVENT_TYPE_NEWS,
 } from './services/common.service';
 import { Subscription } from 'rxjs';
 import { TypeSection } from './models/section.type';
 import { TypeSSEEvent } from './models/sse-event.type';
+import { TypeNews, TypeMultimedia } from './models/news.type';
 import { initFlowbite } from 'flowbite';
 import { SectionListComponent } from './section-list/section-list.component';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
@@ -37,6 +39,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isFetchingSections: boolean = false;
   isSettingUpSSEConnection: boolean = false;
+
+  news: TypeNews[] = [];
+  allNewsFetched: boolean = false;
 
   constructor(private service: CommonService) {}
 
@@ -68,8 +73,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onListItemClickedEventHandler(section: TypeSection) {
-    // clear the current feed
-    // update server to start sending SSE events based on this section
+    this.news = [];
+    this.allNewsFetched = false;
     this.service.closeEventSourceForSSE();
     this.setupSSERegistration(section);
   }
@@ -87,7 +92,11 @@ export class AppComponent implements OnInit, OnDestroy {
             //console.log(`event response for message ==> ${response.data}`);
           }
           if (response.eventType === SSE_EVENT_TYPE_NEWS) {
-            console.log(`event response for news ==> ${response.data}`);
+            if (response.data === SSE_EVENT_TYPE_ALL_SENT) {
+              this.allNewsFetched = true;
+            } else {
+              this.news.push(JSON.parse(response.data) as TypeNews);
+            }
           }
         },
       })

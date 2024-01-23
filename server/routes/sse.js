@@ -7,7 +7,7 @@ const axios = require("axios");
 var sseResponse;
 var sectionDetailsArr = [];
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
   // set below header on response to establish SSE
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Content-Type", "text/event-stream");
@@ -16,28 +16,12 @@ router.get("/", async (req, res, next) => {
   res.setHeader("X-Accel-Buffering", "no");
   res.flushHeaders();
 
+  // store res ref to use in other functions
   sseResponse = res;
-  getSectionDetails(req, res, next);
-
-  /* write any logic to start sending events
-  setInterval(() => {
-    res.write(
-      helper.serializeEvent(
-        constants.SSE_EVENT_TYPE_MSG,
-        `${new Date().toLocaleTimeString()}`
-      )
-    );
-    res.write(
-      helper.serializeEvent(
-        constants.SSE_EVENT_TYPE_NEWS,
-        `${new Date().toLocaleTimeString()}`
-      )
-    );
-  }, 1000); */
+  getSectionDetails(req.url.split("=")[1]); // extract section from url
 });
 
-const getSectionDetails = async (req, res, next) => {
-  const section = req.url.split("=")[1];
+const getSectionDetails = async (section) => {
   const url = `${constants.BASE_URL}/nyt/${section}.json`;
   const options = { params: { [constants.API_KEY]: constants.API_KEY_VAL } };
 
@@ -58,12 +42,14 @@ const getSectionDetails = async (req, res, next) => {
 const populateSectionDetailsArr = (apiRecords) => {
   sectionDetailsArr = [];
   apiRecords.map((record) => {
-    const { section, subsection, title, abstract, multimedia } = record;
+    const { section, subsection, title, abstract, published_date, multimedia } =
+      record;
     sectionDetailsArr.push({
       section,
       subsection,
       title,
       abstract,
+      published_date,
       multimedia,
       isSent: false,
     });
@@ -83,8 +69,12 @@ const sendSectionsResultsInEvents = async () => {
       );
       sendSectionsResultsInEvents();
     } else {
+      // all events sent
       sseResponse.write(
-        helper.serializeEvent(constants.SSE_EVENT_TYPE_ALL_SENT, ``)
+        helper.serializeEvent(
+          constants.SSE_EVENT_TYPE_NEWS,
+          constants.SSE_EVENT_TYPE_ALL_SENT
+        )
       );
       clearTimeout(timeout);
     }
