@@ -1,5 +1,3 @@
-# news-feed-app-using-server-sent-events
-
 <h1>News Feed App Using Server Sent Events</h1>
 
 This project is using angular to develop frontend and node-express to develop backend, front end shows news feed delivered through SSE from node express server
