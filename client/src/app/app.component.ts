@@ -12,11 +12,11 @@ import {
 import { Subscription } from 'rxjs';
 import { TypeSection } from './models/section.type';
 import { TypeSSEEvent } from './models/sse-event.type';
-import { TypeNews, TypeMultimedia } from './models/news.type';
+import { TypeNews } from './models/news.type';
 import { initFlowbite } from 'flowbite';
 import { SectionListComponent } from './section-list/section-list.component';
 import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
-
+import { SectionNewsComponent } from './section-news/section-news.component';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -25,6 +25,7 @@ import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator
     RouterOutlet,
     SectionListComponent,
     LoadingIndicatorComponent,
+    SectionNewsComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
